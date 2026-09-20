@@ -233,7 +233,7 @@ To evaluate the application's core feature set, follow this workflow:
 - Signup/Login
 - Dashboard
 - Link management
-- Analytics
+- Analyticsgit statu
 - QR code
 - Bio editor
 - Public Bio page
