@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+sqlalchemy
+passlib
+bcrypt==3.2.0
+python-jose[cryptography]
+python-multipart
+qrcode
+Pillow
+python-dotenv
+jinja2
+slowapi

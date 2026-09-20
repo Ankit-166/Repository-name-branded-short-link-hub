@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - LinkHub{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <ul>
+            <li class="active" data-tab="links">My Links</li>
+            <li data-tab="analytics">Analytics</li>
+            <li data-tab="bio">Bio Profile</li>
+        </ul>
+    </aside>
+    <div class="dashboard-content">
+        <!-- Links Tab -->
+        <section id="tab-links" class="tab-pane active">
+            <div class="header-action">
+                <h2>My Links</h2>
+                <button id="btn-new-link" class="btn btn-primary">Create Link</button>
+            </div>
+            
+            <div id="new-link-form" class="card hidden">
+                <h3>Create a New Link</h3>
+                <form id="form-create-link">
+                    <div class="form-group">
+                        <label>Destination URL</label>
+                        <input type="url" id="dest-url" required placeholder="https://example.com/very/long/url">
+                    </div>
+                    <div class="form-group">
+                        <label>Custom Slug (optional)</label>
+                        <input type="text" id="custom-slug" placeholder="my-custom-link">
+                    </div>
+                    <div class="flex-actions">
+                        <button type="submit" class="btn btn-primary">Shorten</button>
+                        <button type="button" id="btn-cancel-link" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Short Link</th>
+                            <th>Destination</th>
+                            <th>Clicks</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="links-tbody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Analytics Tab -->
+        <section id="tab-analytics" class="tab-pane hidden">
+            <h2>Analytics</h2>
+            <div class="form-group">
+                <label>Select Link</label>
+                <select id="analytics-link-select" class="form-control">
+                    <option value="">Choose a link...</option>
+                </select>
+            </div>
+            
+            <div id="analytics-results" class="hidden">
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <h4>Total Clicks</h4>
+                        <div class="stat-value" id="stat-total">0</div>
+                    </div>
+                </div>
+                
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <canvas id="clicksChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="deviceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <h3>Top Referrers</h3>
+                    <ul id="referrers-list" class="list-group">
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bio Profile Tab -->
+        <section id="tab-bio" class="tab-pane hidden">
+            <h2>Bio Profile</h2>
+            <div class="card">
+                <form id="form-bio-profile">
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <input type="text" id="bio-display-name">
+                    </div>
+                    <div class="form-group">
+                        <label>Bio text</label>
+                        <textarea id="bio-text" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Theme</label>
+                        <select id="bio-theme">
+                            <option value="minimal-light">Minimal Light</option>
+                            <option value="dark-slate">Dark Slate</option>
+                            <option value="gradient">Gradient</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Profile</button>
+                    <a href="#" id="view-public-bio" target="_blank" class="btn btn-secondary hidden">View Public Profile</a>
+                </form>
+            </div>
+
+            <div class="card mt-4">
+                <h3>Bio Links</h3>
+                <form id="form-bio-link" class="mb-4">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="bio-link-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>URL</label>
+                        <input type="url" id="bio-link-url" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Link</button>
+                </form>
+
+                <ul id="bio-links-list" class="bio-links-list">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Modal for QR -->
+<div id="qr-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>QR Code</h3>
+        <div class="qr-container">
+            <img id="qr-image" src="" alt="QR Code">
+        </div>
+    </div>
+</div>
+{% endblock %}
