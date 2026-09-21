@@ -27,13 +27,16 @@ def update_my_bio(bio_data: BioProfileCreate, db: Session = Depends(get_db), cur
             username=current_user.username,
             display_name=bio_data.display_name or current_user.name,
             bio=bio_data.bio,
-            theme=bio_data.theme
+            theme=bio_data.theme,
+            avatar=bio_data.avatar
         )
         db.add(profile)
     else:
         profile.display_name = bio_data.display_name
         profile.bio = bio_data.bio
         profile.theme = bio_data.theme
+        if bio_data.avatar is not None:
+            profile.avatar = bio_data.avatar
         
     db.commit()
     db.refresh(profile)

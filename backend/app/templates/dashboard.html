@@ -94,6 +94,13 @@
             <h2>Bio Profile</h2>
             <div class="card">
                 <form id="form-bio-profile">
+                    <div class="form-group" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 1rem;">
+                        <div id="avatar-preview" style="width: 96px; height: 96px; border-radius: 50%; background-color: #4f46e5; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 600; overflow: hidden; margin-bottom: 0.5rem; border: 2px solid #e5e7eb;">
+                        </div>
+                        <input type="file" id="bio-avatar-input" accept="image/jpeg, image/png, image/webp" style="display: none;">
+                        <button type="button" id="btn-upload-avatar" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">Upload Photo</button>
+                        <small style="opacity: 0.7; margin-top: 0.5rem; font-size: 0.75rem;">Max 2MB. JPG/PNG/WEBP.</small>
+                    </div>
                     <div class="form-group">
                         <label>Display Name</label>
                         <input type="text" id="bio-display-name">

@@ -32,6 +32,7 @@
             --link-hover: rgba(255, 255, 255, 0.2);
             --border-color: rgba(255, 255, 255, 0.2);
             --accent-color: #ffffff;
+            --avatar-text: #764ba2;
         }
 
         body {
@@ -56,7 +57,7 @@
             height: 96px;
             border-radius: 50%;
             background-color: var(--accent-color);
-            color: #fff;
+            color: var(--avatar-text, #fff);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -64,6 +65,13 @@
             font-weight: 600;
             margin: 0 auto 1rem;
             border: 2px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         h1 {
@@ -116,7 +124,11 @@
 <body class="{{ profile.theme }}">
     <div class="bio-container">
         <div class="avatar">
+            {% if profile.avatar %}
+            <img src="{{ profile.avatar }}" alt="Avatar">
+            {% else %}
             {{ (profile.display_name or profile.username)[0].upper() }}
+            {% endif %}
         </div>
         <h1>{{ profile.display_name or profile.username }}</h1>
         {% if profile.bio %}

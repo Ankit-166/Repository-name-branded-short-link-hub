@@ -20,6 +20,7 @@ class BioProfileBase(BaseModel):
     display_name: Optional[str] = None
     bio: Optional[str] = None
     theme: Optional[str] = "minimal-light"
+    avatar: Optional[str] = None
 
 class BioProfileCreate(BioProfileBase):
     pass

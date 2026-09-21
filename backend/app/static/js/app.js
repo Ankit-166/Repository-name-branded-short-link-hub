@@ -320,6 +320,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Bio Tab
+        let currentAvatarBase64 = null;
+
+        const avatarInput = document.getElementById('bio-avatar-input');
+        const btnUploadAvatar = document.getElementById('btn-upload-avatar');
+        const avatarPreview = document.getElementById('avatar-preview');
+
+        if (btnUploadAvatar) {
+            btnUploadAvatar.addEventListener('click', () => {
+                avatarInput.click();
+            });
+        }
+
+        if (avatarInput) {
+            avatarInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast('File size must be less than 2MB', 'danger');
+                    avatarInput.value = '';
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/')) {
+                    showToast('Please upload an image file', 'danger');
+                    avatarInput.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    currentAvatarBase64 = ev.target.result;
+                    avatarPreview.innerHTML = `<img src="${currentAvatarBase64}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
         async function loadBioTab() {
             try {
                 const res = await fetch('/api/bio/me');
@@ -328,6 +366,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('bio-display-name').value = data.display_name || '';
                     document.getElementById('bio-text').value = data.bio || '';
                     document.getElementById('bio-theme').value = data.theme || 'minimal-light';
+                    
+                    currentAvatarBase64 = data.avatar || null;
+                    if (currentAvatarBase64) {
+                        avatarPreview.innerHTML = `<img src="${currentAvatarBase64}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                    } else {
+                        const initial = (data.display_name || data.username || 'U')[0].toUpperCase();
+                        avatarPreview.innerHTML = initial;
+                    }
                     
                     const viewBtn = document.getElementById('view-public-bio');
                     viewBtn.href = `/bio/${data.username}`;
@@ -369,7 +415,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const payload = {
                 display_name: document.getElementById('bio-display-name').value,
                 bio: document.getElementById('bio-text').value,
-                theme: document.getElementById('bio-theme').value
+                theme: document.getElementById('bio-theme').value,
+                avatar: currentAvatarBase64
             };
             try {
                 const res = await fetch('/api/bio/me', {
